@@ -2,6 +2,12 @@ import csv
 
 
 def filter_closed(path_in, path_out):
+    """
+    filter out all questions tagged as "CLOSED"
+
+    :param path_in: path of reading file
+    :param path_out: path to write
+    """
     with open(path_in, "r", encoding="utf-8") as f_in:
         with open(path_out, "w", encoding="utf-8") as f_out:
             read_lines = f_in.readlines()
@@ -29,10 +35,6 @@ def xml2csv(read_path, write_path):
                 post = dict(ET.fromstring(line).attrib)
                 csv_writer.writerow([i, post['Body']])
                 f_write.flush()
-
-
-
-
 
 
 def csv_split(backups: int):
