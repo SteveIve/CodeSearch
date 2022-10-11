@@ -1,13 +1,15 @@
 import csv
+import os.path
 
 
 def filter_closed(path_in, path_out):
+    # noinspection GrazieInspection
     """
-    filter out all questions tagged as "CLOSED"
+        filter out all questions tagged as "CLOSED"
 
-    :param path_in: path of reading file
-    :param path_out: path to write
-    """
+        :param path_in: path of reading file
+        :param path_out: path to write
+        """
     with open(path_in, "r", encoding="utf-8") as f_in:
         with open(path_out, "w", encoding="utf-8") as f_out:
             read_lines = f_in.readlines()
@@ -30,7 +32,6 @@ def xml2csv(read_path: str, write_path: str, question_only: bool):
         line_num = len(read_lines)
         with open(write_path, 'w', encoding='utf-8', newline='') as f_write:
             csv_writer = csv.writer(f_write)
-            keys = list(dict(ET.fromstring(read_lines[0]).attrib).keys())
             for i in range(line_num):
                 line = read_lines[i]
                 post = dict(ET.fromstring(line).attrib)
@@ -53,6 +54,12 @@ def xml2csv(read_path: str, write_path: str, question_only: bool):
             f_write.flush()
 
 
-def csv_split(backups: int):
-    # TODO
-    pass
+def csv_split(file_path: str, folder: str, split_lines: int):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+        total = len(lines)
+        full_split = total // split_lines
+        last_lines = total - (full_split * split_lines)
+        cursor = 0
+        file_name_head = os.path.join(folder, 'split')
+        pass
