@@ -8,4 +8,16 @@ def filter_closed(path_in, path_out):
 
 
 def xml2csv(file):
+    # TODO
     pass
+
+
+def csv_split(backups: int):
+    # TODO
+    pass
+
+
+def keep_questions_only(csv_file):
+    # TODO
+    pass
+
