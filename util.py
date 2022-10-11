@@ -16,7 +16,7 @@ def filter_closed(path_in, path_out):
                     f_out.write(line)
 
 
-def xml2csv(read_path, write_path):
+def xml2csv(read_path, write_path, question_only):
     """
     convert xml into csv, All attributes but question title will be removed.
 
@@ -33,8 +33,23 @@ def xml2csv(read_path, write_path):
             for i in range(line_num):
                 line = read_lines[i]
                 post = dict(ET.fromstring(line).attrib)
-                csv_writer.writerow([i, post['Body']])
-                f_write.flush()
+                if question_only:
+                    csv_writer.writerow([i, post['Body']])
+                    continue
+                csv_writer.writerow([i, post['Id'], post['PostTypeId'],
+                                     -1 if 'AcceptedAnswerId' not in post.keys() else post['AcceptedAnswerId'],
+                                     post['CreationDate'],
+                                     post['Score'], post['ViewCount'], post['Body'],
+                                     -1 if 'OwnerUserId' not in post.keys() else post['OwnerUserId'],
+                                     -1 if 'LastEditorUserId' not in post.keys() else post['LastEditorUserId'],
+                                     -1 if 'LastEditDate' not in post.keys() else post['LastEditDate'],
+                                     post['LastActivityDate'],
+                                     post['Title'], post['Tags'], post['AnswerCount'], post['CommentCount'],
+                                     -1 if 'FavoriteCount' not in post.keys() else post['FavoriteCount'],
+                                     post['ContentLicense']])
+                # TODO: Hard-coded..need fix
+                continue
+            f_write.flush()
 
 
 def csv_split(backups: int):
