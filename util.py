@@ -16,10 +16,11 @@ def filter_closed(path_in, path_out):
                     f_out.write(line)
 
 
-def xml2csv(read_path, write_path, question_only):
+def xml2csv(read_path: str, write_path: str, question_only: bool):
     """
     convert xml into csv, All attributes but question title will be removed.
 
+    :param question_only: whether ignoring other attributes
     :param read_path: i.e. path of xml file
     :param write_path: i.e. path of csv file
     """
