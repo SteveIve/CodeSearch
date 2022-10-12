@@ -63,3 +63,8 @@ def csv_split(file_path: str, folder: str, split_lines: int):
         cursor = 0
         file_name_head = os.path.join(folder, 'split')
         pass
+
+
+def filter_negative_score(read_path, write_path):
+    # TODO
+    pass
