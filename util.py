@@ -3,13 +3,12 @@ import os.path
 
 
 def filter_closed(path_in, path_out):
-    # noinspection GrazieInspection
     """
         filter out all questions tagged as "CLOSED"
 
         :param path_in: path of reading file
         :param path_out: path to write
-        """
+    """
     with open(path_in, "r", encoding="utf-8") as f_in:
         with open(path_out, "w", encoding="utf-8") as f_out:
             read_lines = f_in.readlines()
@@ -80,11 +79,19 @@ def csv_split(file_path: str, folder: str, split_lines: int):
                 cursor += 1
                 writer.writerow(line)
             last_file.flush()
-    return full_split if full_split*split_lines == total else full_split
+    return full_split if full_split * split_lines == total else full_split
     # there are better ways to implement this.
     # for example the csv.writer().writerows() method.
 
 
 def filter_negative_score(read_path, write_path):
-    # TODO
-    pass
+    with open(read_path, 'r', encoding='utf-8') as read_file:
+        lines = read_file.readlines()
+        for line in lines:
+            flag = line.find('Score="-')
+            if flag != -1:
+                lines.remove(line)
+
+        with open(write_path, 'w', encoding='utf-8') as write_path:
+            write_path.writelines(lines)
+
