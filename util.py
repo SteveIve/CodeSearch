@@ -56,13 +56,33 @@ def xml2csv(read_path: str, write_path: str, question_only: bool):
 
 def csv_split(file_path: str, folder: str, split_lines: int):
     with open(file_path, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
+        reader = csv.reader(f, delimiter=',')
+        lines = []
+        for line in reader:
+            lines.append(line)
         total = len(lines)
         full_split = total // split_lines
-        last_lines = total - (full_split * split_lines)
+        # last_lines = total - (full_split * split_lines)
         cursor = 0
         file_name_head = os.path.join(folder, 'split')
-        pass
+        for i in range(full_split):
+            with open(file_name_head + str(i + 1) + ".csv", 'w', encoding='utf-8', newline='') as write_file:
+                writer = csv.writer(write_file)
+                for j in range(split_lines):
+                    line = lines[cursor]
+                    cursor += 1
+                    writer.writerow(line)
+                write_file.flush()
+        with open(file_name_head + str(full_split + 1) + ".csv", 'w', encoding='utf-8', newline='') as last_file:
+            writer = csv.writer(last_file)
+            while cursor < total:
+                line = lines[cursor]
+                cursor += 1
+                writer.writerow(line)
+            last_file.flush()
+    return full_split if full_split*split_lines == total else full_split
+    # there are better ways to implement this.
+    # for example the csv.writer().writerows() method.
 
 
 def filter_negative_score(read_path, write_path):
