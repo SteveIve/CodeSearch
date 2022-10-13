@@ -20,4 +20,4 @@ print("done converting into csv")
 
 # Split
 util.csv_split('raw-data/posts.csv', 'split/', 10000)
-print("done spliting")
+print("done splitting")
