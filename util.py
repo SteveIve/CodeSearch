@@ -35,7 +35,6 @@ def save_xml(lines: list[str], path):
 
 
 def progress_bar(index, total, desc='processing'):
-    # TODO wrong here
     print('\r', end='')
     num = int(index / total * 100)
     por_num = int(num * 0.5)
