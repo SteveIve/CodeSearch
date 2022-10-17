@@ -16,6 +16,7 @@ def filter_closed(path_in, path_out):
             read_lines = f_in.readlines()
             for line in tqdm(read_lines, desc="filtering closed"):
                 if line.find("CloseDate=") > -1:
+                    # wrong here.
                     f_out.write(line)
 
 
