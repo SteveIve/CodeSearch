@@ -1,6 +1,8 @@
 import csv
 import os.path
 
+from tqdm import tqdm
+
 
 def filter_closed(path_in, path_out):
     """
@@ -12,7 +14,7 @@ def filter_closed(path_in, path_out):
     with open(path_in, "r", encoding="utf-8") as f_in:
         with open(path_out, "w", encoding="utf-8") as f_out:
             read_lines = f_in.readlines()
-            for line in read_lines:
+            for line in tqdm(read_lines, desc="filtering closed"):
                 if line.find("CloseDate=") > -1:
                     f_out.write(line)
 
@@ -31,7 +33,7 @@ def xml2csv(read_path: str, write_path: str, question_only: bool):
         line_num = len(read_lines)
         with open(write_path, 'w', encoding='utf-8', newline='') as f_write:
             csv_writer = csv.writer(f_write)
-            for i in range(line_num):
+            for i in tqdm(range(line_num), desc="converting into csv"):
                 line = read_lines[i]
                 post = dict(ET.fromstring(line).attrib)
                 if question_only:
@@ -64,7 +66,7 @@ def csv_split(file_path: str, folder: str, split_lines: int):
         # last_lines = total - (full_split * split_lines)
         cursor = 0
         file_name_head = os.path.join(folder, 'split')
-        for i in range(full_split):
+        for i in tqdm(range(full_split), desc="splitting files"):
             with open(file_name_head + str(i + 1) + ".csv", 'w', encoding='utf-8', newline='') as write_file:
                 writer = csv.writer(write_file)
                 for j in range(split_lines):
@@ -87,11 +89,10 @@ def csv_split(file_path: str, folder: str, split_lines: int):
 def filter_negative_score(read_path, write_path):
     with open(read_path, 'r', encoding='utf-8') as read_file:
         lines = read_file.readlines()
-        for line in lines:
+        for line in tqdm(lines, desc="filtering negative score"):
             flag = line.find('Score="-')
             if flag != -1:
                 lines.remove(line)
 
         with open(write_path, 'w', encoding='utf-8') as write_path:
             write_path.writelines(lines)
-
