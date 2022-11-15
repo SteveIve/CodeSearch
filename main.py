@@ -15,4 +15,4 @@ util.save_as_csv(lines, 'processed/filtered.csv', True)
 
 samples = util.sample_k_from_list(2000, lines)
 
-util.save_as_csv(samples, 'processed/sample.csv', True)
+util.save_as_csv(samples, 'processed/sampleBK.csv', True)
